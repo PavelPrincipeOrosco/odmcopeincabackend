@@ -21,4 +21,5 @@ public class CentroAlmacenSap implements Serializable {
     private String lgobe;
     //dsfsf
     //vbv
+    //sfdsf
 }
