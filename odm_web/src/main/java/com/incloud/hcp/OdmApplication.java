@@ -16,19 +16,19 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableScheduling
-public class ProveedorApplication extends SpringBootServletInitializer {
+public class OdmApplication extends SpringBootServletInitializer {
 
 	private static ConfigurableApplicationContext context;
-	private static final Logger log = LoggerFactory.getLogger(ProveedorApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(OdmApplication.class);
 
 	public static void main(String[] args) {
-		//SpringApplication.run(ProveedorApplication.class, args);
-		context = SpringApplication.run(ProveedorApplication.class, args);
+		//SpringApplication.run(OdmApplication.class, args);
+		context = SpringApplication.run(OdmApplication.class, args);
 	}
 
 //	@Override
 //	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//		return builder.sources(ProveedorApplication.class);
+//		return builder.sources(OdmApplication.class);
 //	}
 
 	@PostConstruct
@@ -41,7 +41,7 @@ public class ProveedorApplication extends SpringBootServletInitializer {
 		ApplicationArguments args = context.getBean(ApplicationArguments.class);
 		Thread thread = new Thread(() -> {
 			context.close();
-			context = SpringApplication.run(ProveedorApplication.class, args.getSourceArgs());
+			context = SpringApplication.run(OdmApplication.class, args.getSourceArgs());
 		});
 		thread.setDaemon(false);
 		thread.start();
