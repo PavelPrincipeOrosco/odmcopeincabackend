@@ -21,14 +21,14 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 @NoRepositoryBean
-public interface MtrEstadoRepository extends JPACustomRepository<MtrEstado, Integer> {
+public interface MtrEstadoRepository extends JPACustomRepository<MtrEstado, Long> {
 
     default List<MtrEstado> findCompletePaginated(String query, int maxResults) {
         MtrEstado probe = new MtrEstado();
-        //probe.setCodigoAgrupado(query);
-        probe.setCodigoAgrupado(null);
+        //probe.setDescripcion(query);
+        probe.setDescripcion(null);
         ExampleMatcher matcher = ExampleMatcher.matching() //
-                .withMatcher(MtrEstado_.codigoAgrupado.getName(), match -> match.ignoreCase().startsWith());
+                .withMatcher(MtrEstado_.descripcion.getName(), match -> match.ignoreCase().startsWith());
 
         Page<MtrEstado> page = this.findAll(Example.of(probe, matcher), PageRequest.of(0, maxResults));
         return page.getContent();

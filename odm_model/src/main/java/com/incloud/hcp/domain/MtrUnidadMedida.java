@@ -10,7 +10,6 @@
 package com.incloud.hcp.domain;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,10 +20,10 @@ import java.util.logging.Logger;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-@Table(name = "mtr_unidad_medida")
+@Table(name = "MTR_UNIDAD_MEDIDA")
 //@Audited
-//@AuditTable("_audi_mtr_unidad_medida")
-public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>, Serializable {
+//@AuditTable("_audi_MTR_UNIDAD_MEDIDA")
+public class MtrUnidadMedida extends BaseDomain implements Identifiable<Long>, Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(MtrUnidadMedida.class.getName());
 
@@ -33,9 +32,10 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
     /***************************/
 
     // Raw attributes
-    private Integer id;
+    private Long id;
     private String codigoSap;
     private String descripcion;
+    private String status;
 
     @Override
     public String entityClassName() {
@@ -45,20 +45,20 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "mtr_unidad_medida_id", precision = 10)
-    @GeneratedValue(strategy = SEQUENCE, generator = "seq_mtr_unidad_medida")
+    @Column(name = "MTR_UNIDAD_MEDIDA_ID", precision = 19)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seq_MTR_UNIDAD_MEDIDA")
     @Id
-    @SequenceGenerator(name = "seq_mtr_unidad_medida", sequenceName = "seq_mtr_unidad_medida", allocationSize = 1)
-    public Integer getId() {
+    @SequenceGenerator(name = "seq_MTR_UNIDAD_MEDIDA", sequenceName = "seq_MTR_UNIDAD_MEDIDA", allocationSize = 1)
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public MtrUnidadMedida id(Integer id) {
+    public MtrUnidadMedida id(Long id) {
         setId(id);
         return this;
     }
@@ -70,9 +70,8 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
     }
     // -- [codigoSap] ------------------------
 
-    @NotEmpty(message = "{message.mtrUnidadMedida.codigoSap.requerido}")
-    @Size(max = 20, message = "{message.mtrUnidadMedida.codigoSap.sizeMax} {max} {message.caracter}")
-    @Column(name = "codigo_sap", nullable = false, unique = true, length = 20)
+    @Size(max = 50, message = "{message.mtrUnidadMedida.codigoSap.sizeMax} {max} {message.caracter}")
+    @Column(name = "CODIGO_SAP", length = 50)
     public String getCodigoSap() {
         return codigoSap;
     }
@@ -88,8 +87,8 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
     // -- [descripcion] ------------------------
 
     @NotEmpty(message = "{message.mtrUnidadMedida.descripcion.requerido}")
-    @Size(max = 150, message = "{message.mtrUnidadMedida.descripcion.sizeMax} {max} {message.caracter}")
-    @Column(name = "descripcion", nullable = false, unique = true, length = 150)
+    @Size(max = 50, message = "{message.mtrUnidadMedida.descripcion.sizeMax} {max} {message.caracter}")
+    @Column(name = "DESCRIPCION", nullable = false, length = 50)
     public String getDescripcion() {
         return descripcion;
     }
@@ -100,6 +99,22 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
 
     public MtrUnidadMedida descripcion(String descripcion) {
         setDescripcion(descripcion);
+        return this;
+    }
+    // -- [status] ------------------------
+
+    @Size(max = 2, message = "{message.mtrUnidadMedida.status.sizeMax} {max} {message.caracter}")
+    @Column(name = "STATUS", length = 2)
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public MtrUnidadMedida status(String status) {
+        setStatus(status);
         return this;
     }
 
@@ -118,20 +133,11 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
         return this == other || (other instanceof MtrUnidadMedida && hashCode() == other.hashCode());
     }
 
-    private volatile int previousHashCode = 0;
+    private IdentifiableHashBuilder identifiableHashBuilder = new IdentifiableHashBuilder();
 
     @Override
     public int hashCode() {
-        int hashCode = Objects.hashCode(getDescripcion());
-
-        if (previousHashCode != 0 && previousHashCode != hashCode) {
-            log.warning("DEVELOPER: hashCode has changed!." //
-                    + "If you encounter this message you should take the time to carefuly review equals/hashCode for: " //
-                    + getClass().getCanonicalName());
-        }
-
-        previousHashCode = hashCode;
-        return hashCode;
+        return identifiableHashBuilder.hash(log, this);
     }
 
     /**
@@ -144,6 +150,7 @@ public class MtrUnidadMedida extends BaseDomain implements Identifiable<Integer>
                 .add("id", getId()) //
                 .add("codigoSap", getCodigoSap()) //
                 .add("descripcion", getDescripcion()) //
+                .add("status", getStatus()) //
                 .toString();
     }
 }

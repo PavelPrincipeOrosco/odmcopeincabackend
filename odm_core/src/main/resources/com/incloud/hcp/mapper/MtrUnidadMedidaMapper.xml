@@ -14,58 +14,67 @@
 <mapper namespace="com.incloud.hcp.mapper.MtrUnidadMedidaMapper">
 
 <resultMap id="mtrUnidadMedidaResultMap" type="com.incloud.hcp.domain.MtrUnidadMedida">
-	<id property="id" jdbcType="INTEGER" column="mtr_unidad_medida_id" />
-	<result property="codigoSap" jdbcType="VARCHAR" column="codigo_sap" />	
-	<result property="descripcion" jdbcType="VARCHAR" column="descripcion" />	
+	<id property="id" jdbcType="INTEGER" column="MTR_UNIDAD_MEDIDA_ID" />
+	<result property="codigoSap" jdbcType="VARCHAR" column="CODIGO_SAP" />	
+	<result property="descripcion" jdbcType="VARCHAR" column="DESCRIPCION" />	
+	<result property="status" jdbcType="VARCHAR" column="STATUS" />	
 </resultMap>
 
 
 <select id="getLista" parameterType="com.incloud.hcp.domain.MtrUnidadMedida" resultMap="mtrUnidadMedidaResultMap">
 	SELECT 
-      mtr_unidad_medida_id , 
-      codigo_sap , 
-      descripcion 
+      MTR_UNIDAD_MEDIDA_ID , 
+      CODIGO_SAP , 
+      DESCRIPCION , 
+      STATUS 
 	FROM
-	mtr_unidad_medida
+	MTR_UNIDAD_MEDIDA
 	WHERE 1 = 1
 	<if test="id != null ">
-		AND mtr_unidad_medida_id = #{id, jdbcType=INTEGER}
+		AND MTR_UNIDAD_MEDIDA_ID = #{id, jdbcType=INTEGER}
 	</if>	
 	<if test="codigoSap != null and codigoSap != '' ">
-		AND codigo_sap = #{codigoSap}
+		AND CODIGO_SAP = #{codigoSap}
 	</if>	
 	<if test="descripcion != null and descripcion != '' ">
-		AND descripcion = #{descripcion}
+		AND DESCRIPCION = #{descripcion}
+	</if>	
+	<if test="status != null and status != '' ">
+		AND STATUS = #{status}
 	</if>	
 </select>
 
 <insert id="insertBean" >
-INSERT INTO  mtr_unidad_medida(
-mtr_unidad_medida_id , 
-codigo_sap , 
-descripcion 
+INSERT INTO  MTR_UNIDAD_MEDIDA(
+MTR_UNIDAD_MEDIDA_ID , 
+CODIGO_SAP , 
+DESCRIPCION , 
+STATUS 
 )
 VALUES
 (
 #{id} , 
 #{codigoSap} , 
-#{descripcion} 
+#{descripcion} , 
+#{status} 
 )
 
 </insert>
 
 <insert id="insertMap" parameterType="java.util.Map" >
-INSERT INTO  mtr_unidad_medida(
-mtr_unidad_medida_id , 
-codigo_sap , 
-descripcion 
+INSERT INTO  MTR_UNIDAD_MEDIDA(
+MTR_UNIDAD_MEDIDA_ID , 
+CODIGO_SAP , 
+DESCRIPCION , 
+STATUS 
 )
 (
 <foreach collection="list" item="element" index="index" separator=" UNION ">  
 SELECT
 #{element.id} , 
 #{element.codigoSap} , 
-#{element.descripcion} 
+#{element.descripcion} , 
+#{element.status} 
 from dual
 
 </foreach>    
@@ -75,36 +84,42 @@ from dual
 
 
 <update id="updateBean">
-    UPDATE mtr_unidad_medida
+    UPDATE MTR_UNIDAD_MEDIDA
     <set>
 	<if test="codigoSap != null and codigoSap != '' ">
-		codigo_sap = #{codigoSap},
+		CODIGO_SAP = #{codigoSap},
 	</if>	
 	<if test="descripcion != null and descripcion != '' ">
-		descripcion = #{descripcion},
+		DESCRIPCION = #{descripcion},
+	</if>	
+	<if test="status != null and status != '' ">
+		STATUS = #{status},
 	</if>	
     </set> 
 	WHERE 
-	  mtr_unidad_medida_id = #{id, jdbcType=INTEGER}	
+	  MTR_UNIDAD_MEDIDA_ID = #{id, jdbcType=INTEGER}	
 </update>
 
 
 <delete id="deleteBean">
-    DELETE FROM mtr_unidad_medida
+    DELETE FROM MTR_UNIDAD_MEDIDA
 	WHERE 1 = 1
 	<if test="id != null ">
-		AND mtr_unidad_medida_id = #{id, jdbcType=INTEGER}
+		AND MTR_UNIDAD_MEDIDA_ID = #{id, jdbcType=INTEGER}
 	</if>	
 	<if test="codigoSap != null and codigoSap != '' ">
-		AND codigo_sap = #{codigoSap}
+		AND CODIGO_SAP = #{codigoSap}
 	</if>	
 	<if test="descripcion != null and descripcion != '' ">
-		AND descripcion = #{descripcion}
+		AND DESCRIPCION = #{descripcion}
+	</if>	
+	<if test="status != null and status != '' ">
+		AND STATUS = #{status}
 	</if>	
 </delete>
 
 <delete id="deleteAll">
-   DELETE FROM mtr_unidad_medida
+   DELETE FROM MTR_UNIDAD_MEDIDA
 </delete>
 
 </mapper>

@@ -32,13 +32,15 @@ public class MtrUnidadMedidaResponse extends BaseResponseDomain<MtrUnidadMedida>
     private String idCondicion;
     private String codigoSapCondicion;
     private String descripcionCondicion;
+    private String statusCondicion;
 
     /****************************/
     /* Variables Listas         */
     /****************************/
 
-    private List<Integer> idList;
+    private List<Long> idList;
     private List<String> codigoSapList;
     private List<String> descripcionList;
+    private List<String> statusList;
 
 }

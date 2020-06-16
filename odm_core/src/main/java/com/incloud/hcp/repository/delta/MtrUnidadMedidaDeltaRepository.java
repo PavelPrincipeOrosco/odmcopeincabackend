@@ -9,11 +9,8 @@
  */
 package com.incloud.hcp.repository.delta;
 
-import com.incloud.hcp.domain.MtrUnidadMedida;
 import com.incloud.hcp.repository.MtrUnidadMedidaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface MtrUnidadMedidaDeltaRepository extends MtrUnidadMedidaRepository {
-    @Query("select u from MtrUnidadMedida u where u.codigoSap = ?1")
-    MtrUnidadMedida findByCodigoSap(String codeSap);
+
 }

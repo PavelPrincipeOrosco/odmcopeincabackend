@@ -17,33 +17,11 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
 
 @NoRepositoryBean
-public interface MtrUnidadMedidaRepository extends JPACustomRepository<MtrUnidadMedida, Integer> {
-
-    /**
-     * Return the persistent instance of {@link MtrUnidadMedida} with the given unique property value codigoSap,
-     * or null if there is no such persistent instance.
-     *
-     * @param codigoSap the unique value
-     * @return the corresponding {@link MtrUnidadMedida} persistent instance or null
-     */
-    @RestResource(path = "/getByCodigoSap")
-    MtrUnidadMedida getByCodigoSap(@Param("codigoSap") String codigoSap);
-
-    /**
-     * Return the persistent instance of {@link MtrUnidadMedida} with the given unique property value descripcion,
-     * or null if there is no such persistent instance.
-     *
-     * @param descripcion the unique value
-     * @return the corresponding {@link MtrUnidadMedida} persistent instance or null
-     */
-    @RestResource(path = "/getByDescripcion")
-    MtrUnidadMedida getByDescripcion(@Param("descripcion") String descripcion);
+public interface MtrUnidadMedidaRepository extends JPACustomRepository<MtrUnidadMedida, Long> {
 
     default List<MtrUnidadMedida> findCompletePaginated(String query, int maxResults) {
         MtrUnidadMedida probe = new MtrUnidadMedida();

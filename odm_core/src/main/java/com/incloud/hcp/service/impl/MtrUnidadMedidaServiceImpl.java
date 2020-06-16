@@ -55,7 +55,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<MtrUnidadMedidaResponse, MtrUnidadMedida, Integer>
+public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<MtrUnidadMedidaResponse, MtrUnidadMedida, Long>
         implements MtrUnidadMedidaService {
 
     protected final String NAME_SHEET = "MtrUnidadMedida";
@@ -78,7 +78,8 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
     protected final ExampleMatcher setAbstractFind(ExampleMatcher matcher) {
         matcher = ExampleMatcher.matching() //
                 .withMatcher(MtrUnidadMedida_.codigoSap.getName(), match -> match.ignoreCase().startsWith())
-                .withMatcher(MtrUnidadMedida_.descripcion.getName(), match -> match.ignoreCase().startsWith());
+                .withMatcher(MtrUnidadMedida_.descripcion.getName(), match -> match.ignoreCase().startsWith())
+                .withMatcher(MtrUnidadMedida_.status.getName(), match -> match.ignoreCase().startsWith());
         return matcher;
     }
 
@@ -103,10 +104,12 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         PredicateUtils.addPredicates(predicates, bean.getIdCondicion(), "id", entity.getId(), cb, root);
         PredicateUtils.addPredicates(predicates, bean.getCodigoSapCondicion(), "codigoSap", entity.getCodigoSap(), cb, root);
         PredicateUtils.addPredicates(predicates, bean.getDescripcionCondicion(), "descripcion", entity.getDescripcion(), cb, root);
+        PredicateUtils.addPredicates(predicates, bean.getStatusCondicion(), "status", entity.getStatus(), cb, root);
         /* Obtener valores de Lista */
         PredicateUtils.addPredicatesListValorPrimitivo(predicates, "id", bean.getIdList(), cb, root);
         PredicateUtils.addPredicatesListValorPrimitivo(predicates, "codigoSap", bean.getCodigoSapList(), cb, root);
         PredicateUtils.addPredicatesListValorPrimitivo(predicates, "descripcion", bean.getDescripcionList(), cb, root);
+        PredicateUtils.addPredicatesListValorPrimitivo(predicates, "status", bean.getStatusList(), cb, root);
         return predicates;
     }
 
@@ -116,10 +119,6 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
 
     protected final String validacionesPrevias(MtrUnidadMedida bean) throws Exception {
         String mensaje = "";
-        if (!Optional.of(bean.getCodigoSap()).isPresent()) {
-            String msg = this.messageSource.getMessage("message.mtrUnidadMedida.codigoSap.requerido", null, LocaleContextHolder.getLocale());
-            mensaje += "* " + msg + "<br/>";
-        }
         if (!Optional.of(bean.getDescripcion()).isPresent()) {
             String msg = this.messageSource.getMessage("message.mtrUnidadMedida.descripcion.requerido", null, LocaleContextHolder.getLocale());
             mensaje += "* " + msg + "<br/>";
@@ -139,36 +138,12 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
     protected String validacionesPreviasCreate(MtrUnidadMedida bean) throws Exception {
         String msg = null;
         MtrUnidadMedida validar = null;
-        validar = this.mtrUnidadMedidaDeltaRepository.getByCodigoSap(bean.getCodigoSap());
-        if (Optional.ofNullable(validar).isPresent()) {
-            msg = this.messageSource.getMessage("message.mtrUnidadMedida.codigoSap.duplicado", null, LocaleContextHolder.getLocale());
-            return msg;
-        }
-        validar = this.mtrUnidadMedidaDeltaRepository.getByDescripcion(bean.getDescripcion());
-        if (Optional.ofNullable(validar).isPresent()) {
-            msg = this.messageSource.getMessage("message.mtrUnidadMedida.descripcion.duplicado", null, LocaleContextHolder.getLocale());
-            return msg;
-        }
         return msg;
     }
 
     protected String validacionesPreviasSave(MtrUnidadMedida bean) throws Exception {
         String msg = null;
         MtrUnidadMedida validar = null;
-        validar = this.mtrUnidadMedidaDeltaRepository.getByCodigoSap(bean.getCodigoSap());
-        if (Optional.ofNullable(validar).isPresent()) {
-            if (bean.getId().intValue() != validar.getId().intValue()) {
-                msg = this.messageSource.getMessage("message.mtrUnidadMedida.codigoSap.duplicado", null, LocaleContextHolder.getLocale());
-                return msg;
-            }
-        }
-        validar = this.mtrUnidadMedidaDeltaRepository.getByDescripcion(bean.getDescripcion());
-        if (Optional.ofNullable(validar).isPresent()) {
-            if (bean.getId().intValue() != validar.getId().intValue()) {
-                msg = this.messageSource.getMessage("message.mtrUnidadMedida.descripcion.duplicado", null, LocaleContextHolder.getLocale());
-                return msg;
-            }
-        }
         return msg;
     }
 
@@ -201,8 +176,8 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         case 1:
             try {
                 valorCadena = currentCell.getStringCellValue();
-                if (valorCadena.length() > 20) {
-                    throw new ServiceException("Valor Campo codigoSap contiene mas de 20 caracter(es)");
+                if (valorCadena.length() > 50) {
+                    throw new ServiceException("Valor Campo codigoSap contiene mas de 50 caracter(es)");
                 }
                 mtrUnidadMedida.setCodigoSap(valorCadena);
             } catch (Exception e) {
@@ -212,12 +187,23 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         case 2:
             try {
                 valorCadena = currentCell.getStringCellValue();
-                if (valorCadena.length() > 150) {
-                    throw new ServiceException("Valor Campo descripcion contiene mas de 150 caracter(es)");
+                if (valorCadena.length() > 50) {
+                    throw new ServiceException("Valor Campo descripcion contiene mas de 50 caracter(es)");
                 }
                 mtrUnidadMedida.setDescripcion(valorCadena);
             } catch (Exception e) {
                 throw new ServiceException("Valor Campo descripcion está en formato incorrecto");
+            }
+            break;
+        case 3:
+            try {
+                valorCadena = currentCell.getStringCellValue();
+                if (valorCadena.length() > 2) {
+                    throw new ServiceException("Valor Campo status contiene mas de 2 caracter(es)");
+                }
+                mtrUnidadMedida.setStatus(valorCadena);
+            } catch (Exception e) {
+                throw new ServiceException("Valor Campo status está en formato incorrecto");
             }
             break;
         default:
@@ -238,7 +224,7 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         return bean;
     }
 
-    protected final Integer setObtenerId(MtrUnidadMedida bean) {
+    protected final Long setObtenerId(MtrUnidadMedida bean) {
         return bean.getId();
     }
 
@@ -282,6 +268,8 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         contador++;
         ExcelDefault.setValueCell(bean.getDescripcion(), dataRow.createCell(contador));
         contador++;
+        ExcelDefault.setValueCell(bean.getStatus(), dataRow.createCell(contador));
+        contador++;
         return contador;
     }
 
@@ -293,15 +281,18 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
         contador++;
         ExcelDefault.setValueCell(bean.getDescripcion(), dataRow.createCell(contador), "S", cellStyleList);
         contador++;
+        ExcelDefault.setValueCell(bean.getStatus(), dataRow.createCell(contador), "S", cellStyleList);
+        contador++;
         return contador;
     }
 
     protected String setAbstractGenerateInsertExcelSXLSX(MtrUnidadMedida bean) {
         String fechaS = "";
-        String sqlInsert = "INSERT INTO mtr_unidad_medida(";
-        sqlInsert = sqlInsert + "mtr_unidad_medida_id" + ", ";
-        sqlInsert = sqlInsert + "codigo_sap" + ", ";
-        sqlInsert = sqlInsert + "descripcion" + ")";
+        String sqlInsert = "INSERT INTO MTR_UNIDAD_MEDIDA(";
+        sqlInsert = sqlInsert + "MTR_UNIDAD_MEDIDA_ID" + ", ";
+        sqlInsert = sqlInsert + "CODIGO_SAP" + ", ";
+        sqlInsert = sqlInsert + "DESCRIPCION" + ", ";
+        sqlInsert = sqlInsert + "STATUS" + ")";
         sqlInsert = sqlInsert + " VALUES (";
         sqlInsert = sqlInsert + bean.getId() + ", ";
         if (StringUtils.isBlank(bean.getCodigoSap())) {
@@ -310,9 +301,14 @@ public abstract class MtrUnidadMedidaServiceImpl extends JPACustomServiceImpl<Mt
             sqlInsert = sqlInsert + "'" + bean.getCodigoSap() + "'" + ", ";
         }
         if (StringUtils.isBlank(bean.getDescripcion())) {
+            sqlInsert = sqlInsert + "null" + ", ";
+        } else {
+            sqlInsert = sqlInsert + "'" + bean.getDescripcion() + "'" + ", ";
+        }
+        if (StringUtils.isBlank(bean.getStatus())) {
             sqlInsert = sqlInsert + "null";
         } else {
-            sqlInsert = sqlInsert + "'" + bean.getDescripcion() + "'";
+            sqlInsert = sqlInsert + "'" + bean.getStatus() + "'";
         }
         sqlInsert = sqlInsert + " );";
         return sqlInsert;

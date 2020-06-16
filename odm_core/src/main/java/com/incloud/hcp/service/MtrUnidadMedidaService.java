@@ -16,6 +16,6 @@ import com.incloud.hcp.service._framework.JPACustomService;
 /**
  * Simple Interface for MtrUnidadMedida.
  */
-public interface MtrUnidadMedidaService extends JPACustomService<MtrUnidadMedidaResponse, MtrUnidadMedida, Integer> {
+public interface MtrUnidadMedidaService extends JPACustomService<MtrUnidadMedidaResponse, MtrUnidadMedida, Long> {
 
 }

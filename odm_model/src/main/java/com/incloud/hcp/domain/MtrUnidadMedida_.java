@@ -16,7 +16,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class MtrUnidadMedida_ {
 
     // Raw attributes
-    public static volatile SingularAttribute<MtrUnidadMedida, Integer> id;
+    public static volatile SingularAttribute<MtrUnidadMedida, Long> id;
     public static volatile SingularAttribute<MtrUnidadMedida, String> codigoSap;
     public static volatile SingularAttribute<MtrUnidadMedida, String> descripcion;
+    public static volatile SingularAttribute<MtrUnidadMedida, String> status;
 }

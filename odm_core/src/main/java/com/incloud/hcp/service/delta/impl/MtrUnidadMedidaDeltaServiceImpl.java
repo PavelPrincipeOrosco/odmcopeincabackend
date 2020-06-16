@@ -10,6 +10,7 @@
 package com.incloud.hcp.service.delta.impl;
 
 import com.incloud.hcp.domain.MtrUnidadMedida;
+import com.incloud.hcp.domain.response.MtrUnidadMedidaResponse;
 import com.incloud.hcp.service.delta.MtrUnidadMedidaDeltaService;
 import com.incloud.hcp.service.impl.MtrUnidadMedidaServiceImpl;
 import com.incloud.hcp.service.support.PageRequestByExample;
@@ -23,6 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -41,23 +46,51 @@ public class MtrUnidadMedidaDeltaServiceImpl extends MtrUnidadMedidaServiceImpl 
     /***********************/
 
     protected Sort setFindAll(Sort sort) {
-        sort = Sort.by(
-                new Sort.Order(Sort.Direction.ASC, "codigoSap"),
-                new Sort.Order(Sort.Direction.ASC, "descripcion")
-        );
+        sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "descripcion"));
         return sort;
     }
 
     protected Sort setFind(MtrUnidadMedida req, ExampleMatcher matcher, Example<MtrUnidadMedida> example, Sort sort) {
-        sort = Sort.by(
-                new Sort.Order(Sort.Direction.ASC, "codigoSap"),
-                new Sort.Order(Sort.Direction.ASC, "descripcion")
-        );
+        sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "descripcion"));
         return sort;
     }
 
     protected void setFindPaginated(PageRequestByExample<MtrUnidadMedida> req, ExampleMatcher matcher, Example<MtrUnidadMedida> example) {
         return;
+    }
+
+    protected List<Predicate> setAdicionalDeltaPredicate(List<Predicate> predicates, MtrUnidadMedidaResponse bean, CriteriaBuilder cb,
+            CriteriaQuery<MtrUnidadMedida> query, Root<MtrUnidadMedida> root) throws Exception {
+
+        MtrUnidadMedida entity = bean.getBean();
+        //Ejemplo
+        /*
+        if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+            Join<MtrUnidadMedida, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+        
+            if (Optional.ofNullable(entity.get<VariableManytoOne>().get<Atributo>()).isPresent()) {
+                Join<MtrUnidadMedida, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+                Predicate thirdCondition = cb.equal(from<ClaseManytoOne>.get("<Atributo>"), entity.get<ClaseManytoOne>().get<Atributo>());
+                predicates.add(thirdCondition);
+            }
+            
+        }
+        query.orderBy(cb.desc(root.get("<campo entity>")));
+        */
+        return predicates;
+    }
+
+    protected Root<MtrUnidadMedida> setAdicionalDeltaTotalPredicate(MtrUnidadMedidaResponse bean, Root<MtrUnidadMedida> countRoot) throws Exception {
+        MtrUnidadMedida entity = bean.getBean();
+        //Ejemplo
+        /*
+        if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+            if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+                Join<MtrUnidadMedida, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+            }
+        }
+        */
+        return countRoot;
     }
 
     /****************/
@@ -77,7 +110,7 @@ public class MtrUnidadMedidaDeltaServiceImpl extends MtrUnidadMedidaServiceImpl 
         return;
     }
 
-    protected void setDelete(Integer id) throws Exception {
+    protected void setDelete(Long id) throws Exception {
 
     }
 

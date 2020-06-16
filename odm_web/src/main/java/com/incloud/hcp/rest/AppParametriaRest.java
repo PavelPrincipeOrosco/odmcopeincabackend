@@ -15,7 +15,7 @@ import com.incloud.hcp.repository.delta.AppParametriaDeltaRepository;
 import com.incloud.hcp.rest._framework.JPACustomRest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AppParametriaRest extends JPACustomRest<AppParametriaResponse, AppParametria, Integer> {
+public abstract class AppParametriaRest extends JPACustomRest<AppParametriaResponse, AppParametria, Long> {
 
     @Autowired
     protected AppParametriaDeltaRepository appParametriaDeltaRepository;

@@ -21,7 +21,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 @NoRepositoryBean
-public interface AppParametriaRepository extends JPACustomRepository<AppParametria, Integer> {
+public interface AppParametriaRepository extends JPACustomRepository<AppParametria, Long> {
 
     default List<AppParametria> findCompletePaginated(String query, int maxResults) {
         AppParametria probe = new AppParametria();

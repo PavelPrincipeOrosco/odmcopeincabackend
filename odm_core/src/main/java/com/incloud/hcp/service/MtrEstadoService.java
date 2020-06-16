@@ -16,6 +16,6 @@ import com.incloud.hcp.service._framework.JPACustomService;
 /**
  * Simple Interface for MtrEstado.
  */
-public interface MtrEstadoService extends JPACustomService<MtrEstadoResponse, MtrEstado, Integer> {
+public interface MtrEstadoService extends JPACustomService<MtrEstadoResponse, MtrEstado, Long> {
 
 }

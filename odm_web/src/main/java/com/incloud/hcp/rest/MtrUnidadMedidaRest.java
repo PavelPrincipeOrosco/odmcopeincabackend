@@ -13,20 +13,9 @@ import com.incloud.hcp.domain.MtrUnidadMedida;
 import com.incloud.hcp.domain.response.MtrUnidadMedidaResponse;
 import com.incloud.hcp.repository.delta.MtrUnidadMedidaDeltaRepository;
 import com.incloud.hcp.rest._framework.JPACustomRest;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.net.URISyntaxException;
-import java.util.Optional;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-public abstract class MtrUnidadMedidaRest extends JPACustomRest<MtrUnidadMedidaResponse, MtrUnidadMedida, Integer> {
+public abstract class MtrUnidadMedidaRest extends JPACustomRest<MtrUnidadMedidaResponse, MtrUnidadMedida, Long> {
 
     @Autowired
     protected MtrUnidadMedidaDeltaRepository mtrUnidadMedidaDeltaRepository;
@@ -41,44 +30,6 @@ public abstract class MtrUnidadMedidaRest extends JPACustomRest<MtrUnidadMedidaR
     protected final MtrUnidadMedida createInstance() {
         MtrUnidadMedida mtrUnidadMedida = new MtrUnidadMedida();
         return mtrUnidadMedida;
-    }
-
-    /**
-     * Find by por codigoSap
-     */
-    @ApiOperation(value = "Busca registro de tipo <T> en base a codigoSap", produces = "application/json")
-    @GetMapping(value = "/_getByCodigoSap/{codigoSap}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<MtrUnidadMedida> getByCodigoSap(@PathVariable String codigoSap) throws URISyntaxException {
-        log.debug(this.NOMBRE_CLASE + " - Ingresando getByCodigoSap: " + codigoSap);
-        try {
-            return Optional.ofNullable(this.mtrUnidadMedidaDeltaRepository.getByCodigoSap(codigoSap)).map(bean -> new ResponseEntity<>(bean, HttpStatus.OK))
-                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (Exception e) {
-            if (this.devuelveRuntimeException) {
-                throw new RuntimeException(e);
-            }
-            HttpHeaders headers = this.devuelveErrorHeaders(e);
-            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /**
-     * Find by por descripcion
-     */
-    @ApiOperation(value = "Busca registro de tipo <T> en base a descripcion", produces = "application/json")
-    @GetMapping(value = "/_getByDescripcion/{descripcion}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<MtrUnidadMedida> getByDescripcion(@PathVariable String descripcion) throws URISyntaxException {
-        log.debug(this.NOMBRE_CLASE + " - Ingresando getByDescripcion: " + descripcion);
-        try {
-            return Optional.ofNullable(this.mtrUnidadMedidaDeltaRepository.getByDescripcion(descripcion)).map(bean -> new ResponseEntity<>(bean, HttpStatus.OK))
-                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (Exception e) {
-            if (this.devuelveRuntimeException) {
-                throw new RuntimeException(e);
-            }
-            HttpHeaders headers = this.devuelveErrorHeaders(e);
-            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-        }
     }
 
     /*****************/

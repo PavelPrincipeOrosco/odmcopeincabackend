@@ -15,7 +15,7 @@ import com.incloud.hcp.repository.delta.MtrEstadoDeltaRepository;
 import com.incloud.hcp.rest._framework.JPACustomRest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class MtrEstadoRest extends JPACustomRest<MtrEstadoResponse, MtrEstado, Integer> {
+public abstract class MtrEstadoRest extends JPACustomRest<MtrEstadoResponse, MtrEstado, Long> {
 
     @Autowired
     protected MtrEstadoDeltaRepository mtrEstadoDeltaRepository;

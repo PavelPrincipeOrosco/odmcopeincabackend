@@ -18,6 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-public class AppParametriaRequireNewServiceImpl extends JPACustomRequiredNewServiceImpl<AppParametria, Integer> implements AppParametriaRequireNewService {
+public class AppParametriaRequireNewServiceImpl extends JPACustomRequiredNewServiceImpl<AppParametria, Long> implements AppParametriaRequireNewService {
 
 }

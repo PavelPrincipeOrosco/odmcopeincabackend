@@ -30,7 +30,7 @@
        <letraColor02>0</letraColor02>
        <letraColor03>0</letraColor03>
        <id>codigoSap</id>
-       <ancho>30</ancho>
+       <ancho>50</ancho>
        <comentario></comentario>
     </header>        
     <header>
@@ -42,7 +42,19 @@
        <letraColor02>0</letraColor02>
        <letraColor03>0</letraColor03>
        <id>descripcion</id>
-       <ancho>150</ancho>
+       <ancho>50</ancho>
+       <comentario></comentario>
+    </header>        
+    <header>
+       <title>status</title>
+       <fondoColor01>255</fondoColor01>
+       <fondoColor02>217</fondoColor02>
+       <fondoColor03>102</fondoColor03>
+       <letraColor01>0</letraColor01>
+       <letraColor02>0</letraColor02>
+       <letraColor03>0</letraColor03>
+       <id>status</id>
+       <ancho>30</ancho>
        <comentario></comentario>
     </header>        
 </excel>

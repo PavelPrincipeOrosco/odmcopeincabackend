@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-public class MtrUnidadMedidaRequireNewServiceImpl extends JPACustomRequiredNewServiceImpl<MtrUnidadMedida, Integer>
-        implements MtrUnidadMedidaRequireNewService {
+public class MtrUnidadMedidaRequireNewServiceImpl extends JPACustomRequiredNewServiceImpl<MtrUnidadMedida, Long> implements MtrUnidadMedidaRequireNewService {
 
 }

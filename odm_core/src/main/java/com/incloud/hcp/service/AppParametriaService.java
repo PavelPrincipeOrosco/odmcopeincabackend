@@ -16,6 +16,6 @@ import com.incloud.hcp.service._framework.JPACustomService;
 /**
  * Simple Interface for AppParametria.
  */
-public interface AppParametriaService extends JPACustomService<AppParametriaResponse, AppParametria, Integer> {
+public interface AppParametriaService extends JPACustomService<AppParametriaResponse, AppParametria, Long> {
 
 }
