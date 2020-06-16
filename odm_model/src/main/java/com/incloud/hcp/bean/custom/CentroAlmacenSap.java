@@ -19,4 +19,6 @@ public class CentroAlmacenSap implements Serializable {
     private String stras;
     private String lgort;
     private String lgobe;
+    //dsfsf
+    //vbv
 }
